@@ -1,26 +1,174 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-background: 0 0% 98%;
+  --color-foreground: 220 15% 15%;
+
+  --color-card: 0 0% 100%;
+  --color-card-foreground: 220 15% 15%;
+
+  --color-popover: 0 0% 100%;
+  --color-popover-foreground: 220 15% 15%;
+
+  --color-primary: 14 90% 55%;
+  --color-primary-foreground: 0 0% 100%;
+  --color-primary-glow: 14 85% 65%;
+
+  --color-secondary: 215 70% 50%;
+  --color-secondary-foreground: 0 0% 100%;
+
+  --color-muted: 220 15% 95%;
+  --color-muted-foreground: 220 10% 45%;
+
+  --color-accent: 145 70% 50%;
+  --color-accent-foreground: 0 0% 100%;
+
+  --color-destructive: 0 84% 60%;
+  --color-destructive-foreground: 0 0% 100%;
+
+  --color-border: 220 15% 88%;
+  --color-input: 220 15% 88%;
+  --color-ring: 14 90% 55%;
+
+  --color-chart-1: 14 90% 55%;
+  --color-chart-2: 215 70% 50%;
+  --color-chart-3: 145 70% 50%;
+  --color-chart-4: 280 70% 60%;
+  --color-chart-5: 45 90% 55%;
+
+  --radius-lg: 0.75rem;
+  --radius-md: calc(0.75rem - 2px);
+  --radius-sm: calc(0.75rem - 4px);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 98%;
+    --foreground: 220 15% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 15%;
+
+    --primary: 14 90% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 14 85% 65%;
+
+    --secondary: 215 70% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 15% 95%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 145 70% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 14 90% 55%;
+
+    --radius: 0.75rem;
+
+    --chart-1: 14 90% 55%;
+    --chart-2: 215 70% 50%;
+    --chart-3: 145 70% 50%;
+    --chart-4: 280 70% 60%;
+    --chart-5: 45 90% 55%;
+  }
+
+  .dark {
+    --background: 220 25% 8%;
+    --foreground: 0 0% 95%;
+
+    --card: 220 20% 12%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 220 20% 12%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 14 90% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 14 85% 65%;
+
+    --secondary: 215 70% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 20% 18%;
+    --muted-foreground: 220 10% 60%;
+
+    --accent: 145 70% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 14 90% 55%;
+
+    --chart-1: 14 90% 55%;
+    --chart-2: 215 70% 50%;
+    --chart-3: 145 70% 50%;
+    --chart-4: 280 70% 60%;
+    --chart-5: 45 90% 55%;
+
+    --color-background: 220 25% 8%;
+    --color-foreground: 0 0% 95%;
+    --color-card: 220 20% 12%;
+    --color-border: 220 20% 20%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .bg-gradient-hero {
+    background: linear-gradient(135deg, hsl(14, 90%, 55%), hsl(340, 82%, 65%));
+  }
+  
+  .bg-gradient-analytics {
+    background: linear-gradient(135deg, hsl(215, 70%, 50%), hsl(280, 70%, 60%));
+  }
+  
+  .bg-gradient-success {
+    background: linear-gradient(135deg, hsl(145, 70%, 50%), hsl(175, 70%, 50%));
+  }
+
+  .shadow-card {
+    box-shadow: 0 2px 8px -2px hsl(220 15% 15% / 0.08);
+  }
+
+  .dark .shadow-card {
+    box-shadow: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+  }
+
+  .shadow-elevated {
+    box-shadow: 0 8px 24px -4px hsl(220 15% 15% / 0.12);
+  }
+
+  .dark .shadow-elevated {
+    box-shadow: 0 8px 24px -4px hsl(0 0% 0% / 0.4);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, hsl(14, 90%, 55%), hsl(340, 82%, 65%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
