@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { User, Save } from 'lucide-react';
+import { User, Save, Sparkles } from 'lucide-react';
+
+const profileQuotes = [
+  "Invest in yourself. You're worth it.",
+  "Your body is your most priceless possession. Take care of it.",
+  "Set goals, stay quiet about them, smash them, clap for yourself.",
+  "The best project you'll ever work on is you.",
+  "Be stronger than your excuses.",
+];
 
 export default function ProfilePage() {
   const { data: session } = useSession();
@@ -10,6 +18,7 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [quoteIndex, setQuoteIndex] = useState(0);
 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -19,6 +28,13 @@ export default function ProfilePage() {
   const [goalWeight, setGoalWeight] = useState('');
   const [activityLevel, setActivityLevel] = useState('moderate');
   const [fitnessGoal, setFitnessGoal] = useState('maintain');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setQuoteIndex((prev) => (prev + 1) % profileQuotes.length);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     fetchUserData();
@@ -104,43 +120,74 @@ export default function ProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Profile Settings</h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Manage your personal information and fitness goals
-        </p>
+      {/* Hero Section */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-600 via-violet-600 to-indigo-600 shadow-2xl">
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-30" />
+        <div className="relative px-8 py-10 md:py-12">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3 flex items-center gap-3">
+              Profile Settings
+              <span className="animate-pulse">⚙️</span>
+            </h1>
+            <div className="flex items-start gap-2 mb-2">
+              <Sparkles className="w-4 h-4 text-yellow-300 mt-1 flex-shrink-0" />
+              <p className="text-base md:text-lg text-white/90 italic font-medium transition-all duration-500">
+                "{profileQuotes[quoteIndex]}"
+              </p>
+            </div>
+            <p className="text-sm text-white/70">
+              Manage your personal information and fitness goals
+            </p>
+            <div className="flex gap-2 mt-3">
+              {profileQuotes.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-1 rounded-full transition-all duration-500 ${
+                    index === quoteIndex ? 'w-6 bg-white' : 'w-2 bg-white/30'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="absolute right-8 bottom-8 hidden lg:block">
+            <div className="text-white/20 text-8xl font-black transform hover:scale-110 transition-transform duration-300">
+              👤
+            </div>
+          </div>
+        </div>
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg">
+        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-lg">
           Profile updated successfully!
         </div>
       )}
 
       {/* Account Info */}
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+      <div className="bg-card/50 backdrop-blur-sm rounded-xl shadow-xl hover:shadow-2xl dark:shadow-2xl dark:shadow-white/10 p-6 border border-gray-200 dark:border-gray-700">
+        <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center">
           <User className="h-5 w-5 mr-2" />
           Account Information
         </h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-foreground mb-1">
               Email
             </label>
             <input
               type="email"
               value={session?.user?.email || ''}
               disabled
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 bg-muted border border-gray-200 dark:border-gray-700 rounded-lg text-muted-foreground cursor-not-allowed"
             />
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-muted-foreground">
               Email cannot be changed
             </p>
           </div>
@@ -149,13 +196,13 @@ export default function ProfilePage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Personal Info */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-card/50 backdrop-blur-sm rounded-xl shadow-xl hover:shadow-2xl dark:shadow-2xl dark:shadow-white/10 p-6 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
             Personal Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Full Name *
               </label>
               <input
@@ -163,32 +210,32 @@ export default function ProfilePage() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
                 placeholder="John Doe"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Age
               </label>
               <input
                 type="number"
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
                 placeholder="25"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Gender
               </label>
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
               >
                 <option value="">Select</option>
                 <option value="male">Male</option>
@@ -200,13 +247,13 @@ export default function ProfilePage() {
         </div>
 
         {/* Body Metrics */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-card/50 backdrop-blur-sm rounded-xl shadow-xl hover:shadow-2xl dark:shadow-2xl dark:shadow-white/10 p-6 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
             Body Metrics
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Height (cm)
               </label>
               <input
@@ -214,13 +261,13 @@ export default function ProfilePage() {
                 step="0.1"
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
                 placeholder="170"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Current Weight (kg)
               </label>
               <input
@@ -228,13 +275,13 @@ export default function ProfilePage() {
                 step="0.1"
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
                 placeholder="70"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Goal Weight (kg)
               </label>
               <input
@@ -242,18 +289,18 @@ export default function ProfilePage() {
                 step="0.1"
                 value={goalWeight}
                 onChange={(e) => setGoalWeight(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
                 placeholder="65"
               />
             </div>
           </div>
 
           {bmi && (
-            <div className="mt-4 p-4 bg-indigo-50 rounded-lg">
-              <p className="text-sm font-medium text-gray-700">
-                Your BMI: <span className="text-2xl font-bold text-indigo-600">{bmi}</span>
+            <div className="mt-4 p-4 bg-primary/10 rounded-lg border border-primary/20">
+              <p className="text-sm font-medium text-foreground">
+                Your BMI: <span className="text-2xl font-bold text-primary">{bmi}</span>
               </p>
-              <p className="text-xs text-gray-600 mt-1">
+              <p className="text-xs text-muted-foreground mt-1">
                 {parseFloat(bmi) < 18.5 && 'Underweight'}
                 {parseFloat(bmi) >= 18.5 && parseFloat(bmi) < 25 && 'Normal weight'}
                 {parseFloat(bmi) >= 25 && parseFloat(bmi) < 30 && 'Overweight'}
@@ -264,19 +311,19 @@ export default function ProfilePage() {
         </div>
 
         {/* Fitness Goals */}
-        <div className="bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-card/50 backdrop-blur-sm rounded-xl shadow-xl hover:shadow-2xl dark:shadow-2xl dark:shadow-white/10 p-6 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-foreground mb-4">
             Fitness Goals
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Activity Level
               </label>
               <select
                 value={activityLevel}
                 onChange={(e) => setActivityLevel(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
               >
                 <option value="sedentary">Sedentary (little or no exercise)</option>
                 <option value="light">Light (exercise 1-3 days/week)</option>
@@ -287,13 +334,13 @@ export default function ProfilePage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-foreground mb-1">
                 Primary Goal
               </label>
               <select
                 value={fitnessGoal}
                 onChange={(e) => setFitnessGoal(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 bg-background/50 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:shadow-xl focus:shadow-2xl dark:shadow-lg dark:shadow-white/10 dark:hover:shadow-xl dark:hover:shadow-white/15 dark:focus:shadow-2xl dark:focus:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-primary text-foreground transition-all duration-200"
               >
                 <option value="lose_weight">Lose Weight</option>
                 <option value="gain_muscle">Gain Muscle</option>
@@ -309,7 +356,7 @@ export default function ProfilePage() {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Save className="h-5 w-5 mr-2" />
             {saving ? 'Saving...' : 'Save Changes'}

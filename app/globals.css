@@ -83,13 +83,13 @@
 
   .dark {
     --background: 220 25% 8%;
-    --foreground: 0 0% 95%;
+    --foreground: 0 0% 98%;
 
     --card: 220 20% 12%;
-    --card-foreground: 0 0% 95%;
+    --card-foreground: 0 0% 98%;
 
     --popover: 220 20% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover-foreground: 0 0% 98%;
 
     --primary: 14 90% 55%;
     --primary-foreground: 0 0% 100%;
@@ -99,7 +99,7 @@
     --secondary-foreground: 0 0% 100%;
 
     --muted: 220 20% 18%;
-    --muted-foreground: 220 10% 60%;
+    --muted-foreground: 220 10% 70%;
 
     --accent: 145 70% 50%;
     --accent-foreground: 0 0% 100%;
@@ -107,8 +107,8 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
+    --border: 220 20% 25%;
+    --input: 220 20% 25%;
     --ring: 14 90% 55%;
 
     --chart-1: 14 90% 55%;
@@ -118,9 +118,11 @@
     --chart-5: 45 90% 55%;
 
     --color-background: 220 25% 8%;
-    --color-foreground: 0 0% 95%;
+    --color-foreground: 0 0% 98%;
     --color-card: 220 20% 12%;
-    --color-border: 220 20% 20%;
+    --color-card-foreground: 0 0% 98%;
+    --color-border: 220 20% 25%;
+    --color-muted-foreground: 220 10% 70%;
   }
 
   * {
@@ -154,7 +156,7 @@
   }
 
   .dark .shadow-card {
-    box-shadow: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+    box-shadow: 0 2px 8px -2px hsl(0 0% 0% / 0.4);
   }
 
   .shadow-elevated {
@@ -162,7 +164,7 @@
   }
 
   .dark .shadow-elevated {
-    box-shadow: 0 8px 24px -4px hsl(0 0% 0% / 0.4);
+    box-shadow: 0 8px 24px -4px hsl(0 0% 0% / 0.5);
   }
 
   .text-gradient {

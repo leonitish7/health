@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
+import Footer from './Footer';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: Home },
@@ -49,8 +50,8 @@ export default function DashboardLayout({
             {/* Logo */}
             <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl">
               <Activity className="w-6 h-6 text-primary" />
-              <span className="bg-gradient-hero bg-clip-text text-transparent">
-                FitTrack
+              <span className="bg-gradient-hero bg-clip-text text-">
+                Workout Health Tracker
               </span>
             </Link>
 
@@ -161,6 +162,9 @@ export default function DashboardLayout({
           {children}
         </div>
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
