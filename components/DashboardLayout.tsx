@@ -50,8 +50,9 @@ export default function DashboardLayout({
             {/* Logo */}
             <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl">
               <Activity className="w-6 h-6 text-primary" />
-              <span className="bg-gradient-hero bg-clip-text text-">
-                Workout Health Tracker
+              <span className="text-base sm:text-lg md:text-xl font-bold text-black dark:text-white group-hover:opacity-80 transition-opacity">
+                <span className="hidden sm:inline">Workout Health Tracker</span>
+                <span className="sm:hidden">WHT</span>
               </span>
             </Link>
 
